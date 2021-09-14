@@ -5,27 +5,36 @@
     <title>산책하멍</title>
     <script>
         function postRunning() {
-                //포스트박스에서 입력하면 받아줄곳
-                let area = $('#select-area').val()
-                let time = $('#select-time').val()
-                let title = $('#title').val()
-                let comment = $('#comment').val()
-                let map_url = $('#map_url').val()
-                let image = $('#image').val()
+            //포스트박스에서 입력하면 받아줄곳
+            let area = $('#select-area').val()
+            let time = $('#select-time').val()
+            let title = $('#title').val()
+            let comment = $('#comment').val()
+            let map_url = $('#map_url').val()
 
-                $.ajax({
-                    type: "POST",
-                    url: "/main",
-                    data: {
-                        area_give: area, time_give: time, title_give: title, comment_give: comment,
-                        map_url_give: map_url, image_give: image
-                    },
-                    success: function (response) { // 성공하면
-                        alert(response["msg"]);
-                        window.location.reload();
-                    }
-                })
-            }
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+            form_data.append("select-area_give", area)
+            form_data.append("select-time_give", time)
+            form_data.append("title_give", title)
+            form_data.append("comment_give", comment)
+            form_data.append("map_url_give", map_url)
+
+            $.ajax({
+                type: "POST",
+                url: "/main",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) { // 성공하면
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
     </script>
 </head>
 
@@ -82,13 +91,13 @@
             <input type="text" id="map-url"/>
 
         <br/>
-            <label for="imgae">이미지</label>
-            <input type="file" id="imgae"/>
+            <label for="file">이미지</label>
+            <input type="file" id="file"/>
 
         <br/>
             <span>산책로나 반려견의 사진을 공유해주세요:)</span>
     </form>
 
-    <input type="submit" onclick="postRunning()"/>
+    <button onclick="postRunning()" type="button" class="btn btn-primary btn-lg">제출</button>
 </body>
 </html>

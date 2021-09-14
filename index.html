@@ -33,109 +33,88 @@
             margin: auto;
         }
 
-        .jumbotron{
-            height:350px;
+        .jumbotron {
+            height: 350px;
         }
 
-        .card-columns{
+        .card-columns {
             margin-top: 50px;
             margin-left: 150px;
         }
 
 
-                /*body {*/
+        /*body {*/
 
 
-                /*    background: url(https://pbs.twimg.com/media/EM90IsGUcAAPtGb.jpg) repeat center center fixed;*/
-                /*    background-size: cover;*/
+        /*    background: url(https://pbs.twimg.com/media/EM90IsGUcAAPtGb.jpg) repeat center center fixed;*/
+        /*    background-size: cover;*/
 
-                /*    -webkit-background-size: cover;*/
+        /*    -webkit-background-size: cover;*/
 
-                /*    -moz-background-size: cover;*/
+        /*    -moz-background-size: cover;*/
 
-                /*    -o-background-size: cover;*/
-                /*    background-position: center;*/
-                /*    background-size: cover;*/
-                /*    width: 2000px;*/
-                /*    height: 400px;*/
-                /*    margin: auto;*/
-                /*}*/
+        /*    -o-background-size: cover;*/
+        /*    background-position: center;*/
+        /*    background-size: cover;*/
+        /*    width: 2000px;*/
+        /*    height: 400px;*/
+        /*    margin: auto;*/
+        /*}*/
 
 
     </style>
-        <script>
+    <script>
 
-            $(document).ready(function () {
-                showRunning();
-            });
+        $(document).ready(function () {
+            showRunning();
+        });
 
-            function postRunning() {
+        function postRunning() {
 
-            }
+        }
 
-            function searching() {
-                let select_area = $('#select-area').val();
-                let select_time = $('#select-time').val();
+        function searching() {
+            let select_area = $('#select-area').val();
+            let select_time = $('#select-time').val();
 
 
-                $.ajax({
-                    type: "POST",
-                    url: "/order",
-                    data: {
-                        name_give: name,
-                        amount_give: amount,
-                        address_give: address,
-                        number_give: number
+            $.ajax({
+                type: "POST",
+                url: "/order",
+                data: {
+                    name_give: name,
+                    amount_give: amount,
+                    address_give: address,
+                    number_give: number
+                }
+            })
+        }
+
+
+
+        function showRunning() {
+            // 메인페이지 진입후 바로 포스트 깔아줄곳
+            $.ajax({
+                type: "GET",
+                url: "/main",
+                data: {},
+                success: function (response) {
+                    let post = response['all_post']
+                    for (let i = 0; i < post.length; i++) {
+                        let area = post[i]['area']
+                        let time = post[i]['time']
+                        let title = post[i]['title'];
+                        let comment = post[i]['comment']
+                        let map_url = post[i]['map_url']
+                        let image = post[i]['image']
+
+                        // let temp_html =
+
                     }
-                })
-            }
+                }
+            })
 
-            function postRunning() {
-                //포스트박스에서 입력하면 받아줄곳
-                let area = $('#select-area').val()
-                let time = $('#select-time').val()
-                let title = $('#title').val()
-                let comment = $('#comment').val()
-                let map_url = $('#map_url').val()
-                let image = $('#image').val()
-
-                $.ajax({
-                    type: "POST",
-                    url: "/main",
-                    data: {
-                        area_give: area, time_give: time, title_give: title, comment_give: comment,
-                        map_url_give: map_url, image_give: image
-                    },
-                    success: function (response) { // 성공하면
-                        alert(response["msg"]);
-                        window.location.reload();
-                    }
-                })
-            }
-
-            function showRunning() {
-                // 메인페이지 진입후 바로 포스트 깔아줄곳
-                $.ajax({
-                    type: "GET",
-                    url: "/main",
-                    data: {},
-                    success: function (response) {
-                        let post = response['all_post']
-                        for (let i = 0; i < post.length; i++) {
-                            let area = post[i]['area']
-                            let time = post[i]['time']
-                            let title = post[i]['title'];
-                            let comment = post[i]['comment']
-                            let map_url = post[i]['map_url']
-                            let image = post[i]['image']
-
-                            // let temp_html =
-
-                        }
-                    }
-                })
-
-            }
+        }
 
 
     </script>
@@ -143,12 +122,12 @@
 </head>
 
 
-
-
-
 <body>
 <div class="wrap">
     <div class="jumbotron jumbotron-fluid">
+        <div>
+            <a href="create.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">포스팅 하러가기</a>
+        </div>
         <div class="container">
             <h1 class="display-4">안녕하멍</h1>
             <p class="lead">반려견의 산책로</p>
@@ -223,85 +202,90 @@
             </div>
         </div>
         <div class="card" style="width: 30rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
         <div class="card" style="width: 30rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
         <div class="card" style="width: 30rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
         <div class="card" style="width: 30rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
         <div class="card" style="width: 30rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
     </div>
 </div>
 
