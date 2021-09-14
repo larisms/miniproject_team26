@@ -1,9 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!Doctype html>
+<html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+
     <title>산책하멍</title>
     <script>
+
         function postRunning() {
             //포스트박스에서 입력하면 받아줄곳
             let area = $('#select-area').val()
@@ -16,22 +38,22 @@
             let form_data = new FormData()
 
             form_data.append("file_give", file)
-            form_data.append("select-area_give", area)
-            form_data.append("select-time_give", time)
+            form_data.append("area_give", area)
+            form_data.append("time_give", time)
             form_data.append("title_give", title)
             form_data.append("comment_give", comment)
             form_data.append("map_url_give", map_url)
 
             $.ajax({
                 type: "POST",
-                url: "/main",
+                url: "/create",
                 data: form_data,
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (response) { // 성공하면
+                success: function (response) {
                     alert(response["msg"]);
-                    window.location.reload();
+                    window.location.replace('/');
                 }
             })
         }
@@ -39,7 +61,7 @@
 </head>
 
 <body>
-    <h1 onclick="window.location.href='/'">산책하멍</h1>
+    <h1 onclick="window.location.href='/'" id="start">산책하멍</h1>
     <h2>새로운 산책로 공유하기</h2>
     <form>
         <label for="select-area">지역</label>
