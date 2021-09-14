@@ -1,0 +1,311 @@
+<!Doctype html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+
+    <title>산책로 메인페이지</title>
+
+    <!-- style -->
+    <style type="text/css">
+
+        .wrap {
+            width: 1910px;
+            margin: auto;
+        }
+
+        .jumbotron{
+            height:350px;
+        }
+
+        .card-columns{
+            margin-top: 50px;
+            margin-left: 150px;
+        }
+
+
+                /*body {*/
+
+
+                /*    background: url(https://pbs.twimg.com/media/EM90IsGUcAAPtGb.jpg) repeat center center fixed;*/
+                /*    background-size: cover;*/
+
+                /*    -webkit-background-size: cover;*/
+
+                /*    -moz-background-size: cover;*/
+
+                /*    -o-background-size: cover;*/
+                /*    background-position: center;*/
+                /*    background-size: cover;*/
+                /*    width: 2000px;*/
+                /*    height: 400px;*/
+                /*    margin: auto;*/
+                /*}*/
+
+
+    </style>
+        <script>
+
+            $(document).ready(function () {
+                showRunning();
+            });
+
+            function postRunning() {
+
+            }
+
+            function searching() {
+                let select_area = $('#select-area').val();
+                let select_time = $('#select-time').val();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/order",
+                    data: {
+                        name_give: name,
+                        amount_give: amount,
+                        address_give: address,
+                        number_give: number
+                    }
+                })
+            }
+
+            function postRunning() {
+                //포스트박스에서 입력하면 받아줄곳
+                let area = $('#select-area').val()
+                let time = $('#select-time').val()
+                let title = $('#title').val()
+                let comment = $('#comment').val()
+                let map_url = $('#map_url').val()
+                let image = $('#image').val()
+
+                $.ajax({
+                    type: "POST",
+                    url: "/main",
+                    data: {
+                        area_give: area, time_give: time, title_give: title, comment_give: comment,
+                        map_url_give: map_url, image_give: image
+                    },
+                    success: function (response) { // 성공하면
+                        alert(response["msg"]);
+                        window.location.reload();
+                    }
+                })
+            }
+
+            function showRunning() {
+                // 메인페이지 진입후 바로 포스트 깔아줄곳
+                $.ajax({
+                    type: "GET",
+                    url: "/main",
+                    data: {},
+                    success: function (response) {
+                        let post = response['all_post']
+                        for (let i = 0; i < post.length; i++) {
+                            let area = post[i]['area']
+                            let time = post[i]['time']
+                            let title = post[i]['title'];
+                            let comment = post[i]['comment']
+                            let map_url = post[i]['map_url']
+                            let image = post[i]['image']
+
+                            // let temp_html =
+
+                        }
+                    }
+                })
+
+            }
+
+
+    </script>
+
+</head>
+
+
+
+
+
+<body>
+<div class="wrap">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">안녕하멍</h1>
+            <p class="lead">반려견의 산책로</p>
+        </div>
+    </div>
+    <div class="searching_box">
+        <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
+            <div class="input-group-prepend">
+                <label class="input-group-text">지역</label>
+            </div>
+            <select id="select-area" class="custom-select">
+                <option selected>지역을 선택 하세요</option>
+                <option value="종로구">종로구</option>
+                <option value="중구">중구</option>
+                <option value="용산구">용산구</option>
+                <option value="성동구">성동구</option>
+                <option value="광진구">광진구</option>
+                <option value="동대문구">동대문구</option>
+                <option value="중랑구">중랑구</option>
+                <option value="성북구">성북구</option>
+                <option value="강북구 ">강북구</option>
+                <option value="도봉구">도봉구</option>
+                <option value="노원구">노원구</option>
+                <option value="은평구">은평구</option>
+                <option value="서대문구">서대문구</option>
+                <option value="마포구">마포구</option>
+                <option value="양천구">양천구</option>
+                <option value="강서구">강서구</option>
+                <option value="구로구">구로구</option>
+                <option value="금천구">금천구</option>
+                <option value="영등포구">영등포구</option>
+                <option value="동작구">동작구</option>
+                <option value="관악구">관악구</option>
+                <option value="서초구">서초구</option>
+                <option value="강남구">강남구</option>
+                <option value="송파구">송파구</option>
+                <option value="강동구">강동구</option>
+            </select>
+        </div>
+        <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
+            <div class="input-group-prepend">
+                <label class="input-group-text">시간</label>
+            </div>
+            <select id="select-time" class="custom-select">
+                <option selected>편도 시간</option>
+                <option value="29">30분미만</option>
+                <option value="30">30분이상</option>
+            </select>
+        </div>
+        <div>
+            <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
+        </div>
+        <div style="clear:both;"></div>
+
+    </div>
+    <div class="card-columns">
+        <div class="card" style="width: 30rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+        <div class="card" style="width: 30rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+        <div class="card" style="width: 30rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+        <div class="card" style="width: 30rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+        <div class="card" style="width: 30rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+        <div class="card" style="width: 30rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
