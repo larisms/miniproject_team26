@@ -1,5 +1,5 @@
 ## 항해99 miniproject-team26
----
+
 ### 1. 프로젝트 제목 : 산책하멍 <br/>
 
 ### 2. 프로젝트 내용 : <br/>
@@ -9,8 +9,8 @@
  - 또한, 해당 산책로의 지도 위치를 네이버지도 링크로 연결하여 사용자 거주지역 인근의 위치에서 보다 편리하게 접근할 수 있도록 제작되었습니다.<br/>
 
 ### 3. 와이어프레임 : 별도 첨부<br/>
-   <img src="https://user-images.githubusercontent.com/85733702/133069628-b0424ef3-2ca6-4ffc-8882-83283ae9c40e.jpeg" alt = "와이어프레임" style="width:450px; display:inline;"/>
-   <img src="https://user-images.githubusercontent.com/85733702/133069674-d81de542-ef95-4450-874d-dccf0148abe3.jpeg" alt = "와이어프레임" style="width:450px; display:inline;"/>
+<img src="https://user-images.githubusercontent.com/85733702/133069628-b0424ef3-2ca6-4ffc-8882-83283ae9c40e.jpeg" alt = "와이어프레임" style="width:45%;"/>
+<img src="https://user-images.githubusercontent.com/85733702/133069674-d81de542-ef95-4450-874d-dccf0148abe3.jpeg" alt = "와이어프레임" style="width:45%;"/>
 
 ### 4. 예상되는 API 목록<br/>
  - 회원가입 기능 / POST / api/register
