@@ -19,6 +19,8 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
 
@@ -76,8 +78,6 @@
         function searching() {
             let select_area = $('#select-area').val();
             let select_time = $('#select-time').val();
-
-
             $.ajax({
                 type: "POST",
                 url: "/order",
@@ -126,6 +126,20 @@
                         $('#card-box').append(temp_html)
 
                     }
+                }
+            })
+
+        }
+
+        function log_out(){
+            alert('로그아웃 하시겠습니까?')
+            $.ajax({
+                type: "GET",
+                url: "/sign_out",
+                data: {},
+                success: function (response) {
+                     $.removeCookie('mytoken', {path: '/'});
+                     return window.location.replace("/login")
                 }
             })
 
@@ -201,7 +215,9 @@
     <div class="card-columns" id="card-box">
 
     </div>
+
 </div>
+<button onclick="log_out()">로그아웃</button>
 
 
 </body>
