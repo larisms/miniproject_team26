@@ -108,21 +108,21 @@
                         let file = post[i]['file']
 
                         let temp_html = `<div class="card" style="width: 30rem;">
-            <img class="card-img-top" src="../static/${file}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">${title}</h5>
-                <p class="card-text">${comment}</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">${area}</li>
-                <li class="list-group-item">${time}</li>
-                <li class="list-group-item"></li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">${map_url}</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>`
+                                            <img class="card-img-top" src="../static/${file}" alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${title}</h5>
+                                                <p class="card-text">${comment}</p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">${area}</li>
+                                                <li class="list-group-item">${time}</li>
+                                                <li class="list-group-item"></li>
+                                            </ul>
+                                            <div class="card-body">
+                                                <a href="#" class="card-link">${map_url}</a>
+                                                <a href="#" class="card-link">Another link</a>
+                                            </div>
+                                        </div>`
                         $('#card-box').append(temp_html)
 
                     }
@@ -130,8 +130,6 @@
             })
 
         }
-
-
 
 
     </script>
@@ -143,7 +141,7 @@
 <div class="wrap">
     <div class="jumbotron jumbotron-fluid">
         <div>
-            <button onclick="move()" type="button" class="btn btn-primary">Primary</button>
+            <button onclick="window.location.href='/create'" type="button" class="btn btn-primary">Primary</button>
         </div>
         <div class="container">
             <h1 class="display-4">안녕하멍</h1>
@@ -200,7 +198,7 @@
         <div style="clear:both;"></div>
 
     </div>
-    <div class="card-columns" id = "card-box">
+    <div class="card-columns" id="card-box">
 
     </div>
 </div>

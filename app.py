@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('15.164.170.238', 27017, username="test", password="test")
 db = client.dbhomework_week1
 
 
@@ -21,7 +21,7 @@ def home():
 
 
 
-@app.route('/main', methods=['GET'])
+@app.route('/', methods=['GET'])
 def listing():
     walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
 
@@ -35,6 +35,17 @@ def listing():
 #
 #
 #     return jsonify({})
+
+# 상세페이지
+
+
+@app.route('/detail', methods=['GET'])
+def detail():
+    walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
+
+    return jsonify({'all_post': walkPlace})
+
+
 
 
 ## API 역할을 하는 부분

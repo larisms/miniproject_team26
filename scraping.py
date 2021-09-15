@@ -36,11 +36,11 @@ places = soup.select("#ct > div.search_listview._content._ctList > ul > li")
 
 for place in places:
     title = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > strong").text
-    address = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > div.item_info_inn > div > a").contents[1].strip()
-    image = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.item_thumb._itemThumb > img")
+    address = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > div.item_info_inn > div > a").contents[1]
+    image = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.item_thumb._itemThumb > img")['src']
     category = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em").text
     # show, episode = place.select_one("div.box_module_cont > div > div > div.mil_inner_tv > span.il_text").text.rsplit(" ", 1)
-    print(title, address, category, image)
+    # print(title, address, category, image)
 
     headers = {
         "X-NCP-APIGW-API-KEY-ID": "va9dugepnd",
@@ -52,16 +52,18 @@ for place in places:
         if len(response["addresses"]) > 0:
             x = float(response["addresses"][0]["x"])
             y = float(response["addresses"][0]["y"])
-            print(title, address, category, x, y)
-            doc = {
-                "title": title,
-                "address": address,
-                "category": category,
-                # "show": show,
-                # "episode": episode,
-                "mapx": x,
-                "mapy": y}
-            db.matjips.insert_one(doc)
+
+            print(title, address, category, image, x, y)
+            # doc = {
+            #     "title": title,
+            #     "address": address,
+            #     "category": category,
+            #     "image": image,
+            #     # "show": show,
+            #     # "episode": episode,
+            #     "mapx": x,
+            #     "mapy": y}
+            # db.matjips.insert_one(doc)
 
 
         else:
