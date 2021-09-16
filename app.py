@@ -19,71 +19,102 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/detail/<post_name>', methods=['GET'])
+def detail(post_name):
+    store_receive = request.args.get("store")
+    result = request.form[db.comment["name","comment"]]
+    print(result)
+    return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
 
 
-@app.route('/', methods=['GET'])
+# 메인페이지 카드 리스트
+@app.route('/matjip', methods=['GET'])
 def listing():
-    walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
+    matjip_list = list(db.matjips.find({}, {'_id': False}))
 
-    return jsonify({'all_post': walkPlace})
-
-
-# @app.route('/main', methods=['GET'])
-# def searching():
-#
-#     walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
-#
-#
-#     return jsonify({})
-
-# 상세페이지
-
-
-@app.route('/detail', methods=['GET'])
-def detail():
-    walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
-
-    return jsonify({'all_post': walkPlace})
+    return jsonify({'result': 'success', 'matjip_list': matjip_list})
 
 
 
+#코멘트 추가 제거
+@app.route('/detail/save_commnet', methods=['post'])
+def save_comment():
 
-## API 역할을 하는 부분
-@app.route('/create')
-def create():
-    return render_template("create.html")
-
-@app.route('/create', methods=['POST'])
-def saving():
-    area_receive = request.form['area_give']
-    time_receive = request.form['time_give']
-    title_receive = request.form['title_give']
-    comment_receive = request.form['comment_give']
-    map_url_receive = request.form['map_url_give']
-    file = request.files["file_give"]
-
-    extension = file.filename.split('.')[-1]
-
-    today = datetime.now()
-    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-    filename = f'file-{mytime}'
-
-    save_to = f'static/{filename}.{extension}'
-    file.save(save_to)
+    name_receive = request.form["name_give"]
+    comment_receive= request.form["comment_give"]
 
     doc = {
-        'area': area_receive,
-        'time': time_receive,
-        'title': title_receive,
-        'comment': comment_receive,
-        'map_url': map_url_receive,
-        'file': f'{filename}.{extension}'
+        "name":name_receive,
+        "comment":comment_receive
 
     }
 
-    db.walkPlace.insert_one(doc)
+    db.comment.insert_one(doc)
 
-    return jsonify({'msg': '저장이 완료되었습니다.'})
+@app.route('/detalil/delete_comment')
+def delete_comment():
+
+    comment_receive = request.form["comment_give"]
+    db.comment.delete_one({"comment":comment_receive})
+    return jsonify({'result': 'success', 'msg': f'댓글삭제'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @app.route('/create', methods=['POST'])
+# def saving():
+#     area_receive = request.form['area_give']
+#     time_receive = request.form['time_give']
+#     title_receive = request.form['title_give']
+#     comment_receive = request.form['comment_give']
+#     map_url_receive = request.form['map_url_give']
+#     file = request.files["file_give"]
+#
+#     extension = file.filename.split('.')[-1]
+#
+#     today = datetime.now()
+#     mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+#     filename = f'file-{mytime}'
+#
+#     save_to = f'static/{filename}.{extension}'
+#     file.save(save_to)
+#
+#     doc = {
+#         'area': area_receive,
+#         'time': time_receive,
+#         'title': title_receive,
+#         'comment': comment_receive,
+#         'map_url': map_url_receive,
+#         'file': f'{filename}.{extension}'
+#
+#     }
+#
+#     db.walkPlace.insert_one(doc)
+
+    # return jsonify({'msg': '저장이 완료되었습니다.'})
 
 
 
