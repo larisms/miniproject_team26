@@ -89,43 +89,43 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
-@app.route('/create')
-def create():
-    return render_template("create.html")
+@app.route('/detail')
+def detail():
+    return render_template("detail.html")
 
 
-@app.route('/create', methods=['POST'])
-def saving():
-    area_receive = request.form['area_give']
-    time_receive = request.form['time_give']
-    title_receive = request.form['title_give']
-    comment_receive = request.form['comment_give']
-    map_url_receive = request.form['map_url_give']
-    file = request.files["file_give"]
-
-    extension = file.filename.split('.')[-1]
-
-    today = datetime.now()
-    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-    filename = f'file-{mytime}'
-
-    save_to = f'static/{filename}.{extension}'
-    file.save(save_to)
-
-    doc = {
-        'area': area_receive,
-        'time': time_receive,
-        'title': title_receive,
-        'comment': comment_receive,
-        'map_url': map_url_receive,
-        'file': f'{filename}.{extension}'
-
-    }
-
-    db.walkPlace.insert_one(doc)
-
-    return jsonify({'msg': '저장이 완료되었습니다.'})
-
+# @app.route('/create', methods=['POST'])
+# def saving():
+#     area_receive = request.form['area_give']
+#     time_receive = request.form['time_give']
+#     title_receive = request.form['title_give']
+#     comment_receive = request.form['comment_give']
+#     map_url_receive = request.form['map_url_give']
+#     file = request.files["file_give"]
+#
+#     extension = file.filename.split('.')[-1]
+#
+#     today = datetime.now()
+#     mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+#     filename = f'file-{mytime}'
+#
+#     save_to = f'static/{filename}.{extension}'
+#     file.save(save_to)
+#
+#     doc = {
+#         'area': area_receive,
+#         'time': time_receive,
+#         'title': title_receive,
+#         'comment': comment_receive,
+#         'map_url': map_url_receive,
+#         'file': f'{filename}.{extension}'
+#
+#     }
+#
+#     db.walkPlace.insert_one(doc)
+#
+#     return jsonify({'msg': '저장이 완료되었습니다.'})
+#
 
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():

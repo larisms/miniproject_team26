@@ -3,7 +3,7 @@
 <head>
 
     <!-- Webpage Title -->
-    <title>Log In | SWEETER</title>
+    <title>Log In | 호텔가는 멍멍이 부럽다</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -24,7 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <style>
         body {
-            background-color: RGBA(232, 52, 78, 0.2);
+            background-color: RGBA(255, 242, 226);
             min-height: 100vh;
         }
 
@@ -46,23 +46,27 @@
         }
 
         .is-sparta {
-            color: #e8344e !important;
+            color: #E1B87F !important;
         }
 
         .button.is-sparta {
-            background-color: #e8344e;
+            background-color: #E1B87F;
             border-color: transparent;
             color: #fff !important;
         }
 
         .button.is-sparta.is-outlined {
             background-color: transparent;
-            border-color: #e8344e;
-            color: #e8344e !important;
+            border-color: #E1B87F;
+            color: #E1B87F !important;
         }
 
         .help {
             color: gray;
+        }
+
+        .logo {
+            width : 200px;
         }
     </style>
     <script>
@@ -216,8 +220,9 @@
 <body>
 <section class="hero is-white">
     <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-        <h1 class="title is-sparta">SWEETER</h1>
-        <h3 class="subtitle is-sparta">세상을 달달하게</h3>
+{#        <h1 class="title is-sparta">호텔가는 멍멍이 부럽다</h1>#}
+        <img class="logo" src="{{ url_for('static', filename='logo_0.png') }}">
+{#        <h3 class="subtitle is-sparta">우왕</h3>#}
     </div>
 </section>
 <section class="section">

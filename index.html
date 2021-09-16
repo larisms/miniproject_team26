@@ -2,6 +2,9 @@
 <html lang="ko">
 
 <head>
+    <!-- Webpage Title -->
+    <title>호텔가는 멍멍이 부럽다</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +14,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
 
+    <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- style.css -->
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -152,72 +159,82 @@
 
 
 <body>
-<div class="wrap">
-    <div class="jumbotron jumbotron-fluid">
-        <div>
-            <button onclick="move()" type="button" class="btn btn-primary">Primary</button>
+<!-- 네비게이션 바-->
+    <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="{{ url_for('static', filename='logo_3.png') }}">
+                <strong class="is-sparta"
+                        style="font-family: 'Stylish', sans-serif;font-size: larger;">SWEETER</strong>
+            </a>
         </div>
-        <div class="container">
-            <h1 class="display-4">안녕하멍</h1>
-            <p class="lead">반려견의 산책로</p>
-        </div>
-    </div>
-    <div class="searching_box">
-        <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
-            <div class="input-group-prepend">
-                <label class="input-group-text">지역</label>
+    </nav>
+    <div class="wrap">
+        <div class="jumbotron jumbotron-fluid">
+            <div>
+                <button onclick="move()" type="button" class="btn btn-primary">Primary</button>
             </div>
-            <select id="select-area" class="custom-select">
-                <option selected>지역을 선택 하세요</option>
-                <option value="종로구">종로구</option>
-                <option value="중구">중구</option>
-                <option value="용산구">용산구</option>
-                <option value="성동구">성동구</option>
-                <option value="광진구">광진구</option>
-                <option value="동대문구">동대문구</option>
-                <option value="중랑구">중랑구</option>
-                <option value="성북구">성북구</option>
-                <option value="강북구 ">강북구</option>
-                <option value="도봉구">도봉구</option>
-                <option value="노원구">노원구</option>
-                <option value="은평구">은평구</option>
-                <option value="서대문구">서대문구</option>
-                <option value="마포구">마포구</option>
-                <option value="양천구">양천구</option>
-                <option value="강서구">강서구</option>
-                <option value="구로구">구로구</option>
-                <option value="금천구">금천구</option>
-                <option value="영등포구">영등포구</option>
-                <option value="동작구">동작구</option>
-                <option value="관악구">관악구</option>
-                <option value="서초구">서초구</option>
-                <option value="강남구">강남구</option>
-                <option value="송파구">송파구</option>
-                <option value="강동구">강동구</option>
-            </select>
-        </div>
-        <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
-            <div class="input-group-prepend">
-                <label class="input-group-text">시간</label>
+            <div class="container">
+                <h1 class="display-4">안녕하멍</h1>
+                <p class="lead">반려견의 산책로</p>
             </div>
-            <select id="select-time" class="custom-select">
-                <option selected>편도 시간</option>
-                <option value="29">30분미만</option>
-                <option value="30">30분이상</option>
-            </select>
         </div>
-        <div>
-            <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
+        <div class="searching_box">
+            <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">지역</label>
+                </div>
+                <select id="select-area" class="custom-select">
+                    <option selected>지역을 선택 하세요</option>
+                    <option value="종로구">종로구</option>
+                    <option value="중구">중구</option>
+                    <option value="용산구">용산구</option>
+                    <option value="성동구">성동구</option>
+                    <option value="광진구">광진구</option>
+                    <option value="동대문구">동대문구</option>
+                    <option value="중랑구">중랑구</option>
+                    <option value="성북구">성북구</option>
+                    <option value="강북구 ">강북구</option>
+                    <option value="도봉구">도봉구</option>
+                    <option value="노원구">노원구</option>
+                    <option value="은평구">은평구</option>
+                    <option value="서대문구">서대문구</option>
+                    <option value="마포구">마포구</option>
+                    <option value="양천구">양천구</option>
+                    <option value="강서구">강서구</option>
+                    <option value="구로구">구로구</option>
+                    <option value="금천구">금천구</option>
+                    <option value="영등포구">영등포구</option>
+                    <option value="동작구">동작구</option>
+                    <option value="관악구">관악구</option>
+                    <option value="서초구">서초구</option>
+                    <option value="강남구">강남구</option>
+                    <option value="송파구">송파구</option>
+                    <option value="강동구">강동구</option>
+                </select>
+            </div>
+            <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">시간</label>
+                </div>
+                <select id="select-time" class="custom-select">
+                    <option selected>편도 시간</option>
+                    <option value="29">30분미만</option>
+                    <option value="30">30분이상</option>
+                </select>
+            </div>
+            <div>
+                <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
+            </div>
+            <div style="clear:both;"></div>
+
         </div>
-        <div style="clear:both;"></div>
+        <div class="card-columns" id="card-box">
+
+        </div>
 
     </div>
-    <div class="card-columns" id="card-box">
-
-    </div>
-
-</div>
-<button onclick="log_out()">로그아웃</button>
+    <button onclick="log_out()">로그아웃</button>
 
 
 </body>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="detail.css" rel="stylesheet" type="text/css">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        let title = '{{ title }}'
+        $(document).ready(function () {
+            detailList()
+
+
+        })
+
+        $(window).scroll(function () {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 20) {
+                $(".header-wrap").addClass("shadow");
+            } else {
+                $(".header-wrap").removeClass("shadow");
+            }
+        });
+
+        function detailList() {
+            $.ajax({
+                type: "GET",
+                url: "",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    $('#title').text(response[''])
+                    $('#address').text(response[''])
+                    $('#detail').text(response[''])
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div class="header-wrap">
+        <div class="header">
+            <div class="logo">
+                <h1><a href="/">LOGO</a></h1>
+            </div>
+            <div class="sign-box">
+                <span class="sign-in">로그인</span>
+                <span class="sign-up">회원가입</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-con-wrap">
+        <div class="detail-con-box">
+            <!--       <div class="box1"></div>-->
+            <div class="detail-con">
+                <div class="detail-title">
+                    상세 정보
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYvauUVbsu2gfYaOLhVax0d54RmKH71LtBJuwIHZNgH4E4vCvWBjYtwK7BiSE49xsvSP0&usqp=CAU" alt="강아지발바닥"/>
+                </div>
+                <div class="title-wrap">
+                    <div class="title-left">제목</div>
+                    <h2 id="title">
+{#                        {{ result.title }}#}
+                    </h2>
+                </div>
+
+                <div id="map">지도</div>
+                <span id="address">주소</span>
+                <p id="detail">세부정보</p>
+                <button onclick="window.location.href('/')">돌아가기</button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
