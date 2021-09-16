@@ -1,36 +1,24 @@
-from pymongo import MongoClient
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+
+app = Flask(__name__)
+
+import config
 import jwt
-import datetime
 import hashlib
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-from werkzeug.utils import secure_filename
-from datetime import datetime, timedelta
+from datetime import  datetime, timedelta
 
 
-app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
-
-SECRET_KEY = 'SPARTA'
-
-# client = MongoClient('mongodb://test:test@localhost', 27017)
-client = MongoClient('mongodb://54.180.143.1', 27017, username="test", password="test")
-db = client.dbsparta_plus_week4
+SECRET_KEY = config.SECRET_KEY
+client = config.client
+db = config.db
 
 
+## HTML을 주는 부분
 @app.route('/')
 def home():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        return render_template('index.html')
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
@@ -58,10 +46,12 @@ def sign_in():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
+
 ##로그아웃
 @app.route('/sign_out')
 def sign_out():
     return jsonify({"result": "success"})
+
 
 ##회원가입
 @app.route('/sign_up/save', methods=['POST'])
@@ -80,6 +70,11 @@ def sign_up():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 
@@ -91,73 +86,58 @@ def listing():
 
     return jsonify({'result': 'success', 'matjip_list': matjip_list})
 
+@app.route('/detail')
+def detail():
+    return render_template('detail.html')
 
-
-#####여기서부터 디테일페이지
-
-@app.route('/detail', methods=['GET'])
+@app.route('/detail/list', methods=['GET'])
 def comment_listing():
     comments= list(db.comment.find({}, {'_id': False}))
 
     return jsonify({'result': 'success', 'comment_list': comments})
 
-@app.route('/detail/<post_name>')
-def post(post_name):
-    store_receive = request.args.get("store")
-    result = list(db.matjips_post.find({},{'_id':False}))
-    print(result)
-    return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
 
-
-
-#코멘트 추가 제거
-@app.route('/detail', methods=['post'])
+#코멘트 포스팅
+@app.route('/detail/list', methods=['post'])
 def save_comment():
 
     name_receive = request.form["name_give"]
     comment_receive= request.form["comment_give"]
 
-    today = datetime.now()
-    mytime = today.strftime('%Y.%m.%d')
-
     doc = {
         "name":name_receive,
-        "comment":comment_receive,
-        "time":mytime
+        "comment":comment_receive
 
     }
 
-
     db.comment.insert_one(doc)
 
-    return jsonify({'msg': '저장 완료!'})
-
-@app.route('/detalil/delete_comment')
-def delete_comment():
-
-    comment_receive = request.form["comment_give"]
-    db.comment.delete_one({"comment":comment_receive})
-    return jsonify({'result': 'success', 'msg': f'댓글삭제'})
-
-
-
-# @app.route('/detail/<post_name>', methods=['GET'])
-# def detail(post_name):
-#     store_receive = request.args.get("store")
-#     result = request.form[db.comment["name","comment"]]
-#     print(result)
-#     return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
-
-# @app.route('/main', methods=['GET'])
-# def listing():
-#     walkPlace = list(db.walkPlace.find({}, {'_id': False, '_password': False}))
 #
-#     return jsonify({'all_post': walkPlace})
 
 
-# @app.route('/detail')
-# def detail():
-#     return render_template("detail.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # @app.route('/create', methods=['POST'])
@@ -189,73 +169,13 @@ def delete_comment():
 #     }
 #
 #     db.walkPlace.insert_one(doc)
-#
-#     return jsonify({'msg': '저장이 완료되었습니다.'})
-#
 
-@app.route('/sign_up/check_dup', methods=['POST'])
-def check_dup():
-    username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
-    return jsonify({'result': 'success', 'exists': exists})
+    # return jsonify({'msg': '저장이 완료되었습니다.'})
 
 
-# @app.route('/posting', methods=['POST'])
-# def posting():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         # 포스팅하기
-#         return jsonify({"result": "success", 'msg': '포스팅 성공'})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-#
-#
-# @app.route("/get_posts", methods=['GET'])
-# def get_posts():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         # 포스팅 목록 받아오기
-#         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다."})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
 
 
-# @app.route('/update_profile', methods=['POST'])
-# def save_img():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         # 프로필 업데이트
-#         return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
 
-
-# @app.route('/update_like', methods=['POST'])
-# def update_like():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         # 좋아요 수 변경
-#         return jsonify({"result": "success", 'msg': 'updated'})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-
-
-# @app.route('/user/<username>')
-# def user(username):
-#     # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
-#
-#         user_info = db.users.find_one({"username": username}, {"_id": False})
-#         return render_template('user.html', user_info=user_info, status=status)
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
 
 
 
