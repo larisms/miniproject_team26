@@ -10,7 +10,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="dog.css") }}' rel="stylesheet">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -21,24 +21,136 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>Title</title>
+    <style>
+        .table {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            table-layout: fixed;
+        }
 
+        .table th {
+            border-top-style: none;
+        }
+
+        td {
+            background-color: white;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
     <script>
+        {#let post_name = '{{ post_name }}'#}
+        $(document).ready(function () {
+            function listing()
+        })
 
-        function postRunning() {
+
+        {#comments= list(db.comment.find({}, {'_id': False}))#}
+
+        function listing() {
 
             $.ajax({
                 type: "GET",
                 url: "/detail",
                 data: {},
                 success: function (response) {
-                    alert(response["msg"]);
-                    window.location.replace('/');
+                    let comment = response
+                    for (let i = 0; i < comment.length; i++) {
+                        let name = comment[i]['name'];
+                        let comment = comment[i]['amount'];
+                        let temp_html = `<tr id="word">
+                    <td>${name}</td>
+                    <td>${comment}
+
+                    </td>`
+
+
+                        $('#tbody-box').append(temp_html)
+
+
+                    }
                 }
             })
         }
+        function save(){
+
+        $.ajax({
+            type: "POST",
+            url: `/detail/save_comment`,
+            data: {
+                name_give: name,
+                comment_give: comment
+            },
+            success: function (response) {
+                alert(response["msg"])
+                {#window.location.href = "/detail/{{ post_name }}?store=old"#}
+            },
+            error: function (response) {
+                alert(response["실패 하였습니다"])
+
+
+            }
+
+        })
+        }
+
+
+
+        //딜리트버튼누르면 메인페이지
+        {#function delete_word() {#}
+        {#    $.ajax({#}
+        {#        type: "POST",#}
+        {#        url: `/api/delete_post`,#}
+        {#        data: {#}
+        {#            name_give: "{{ result.name }}"#}
+        {#        },#}
+        {#        success: function (response) {#}
+        {#            alert(response["msg"])#}
+        {#            window.location.href = "/"#}
+        {#        }#}
+        {#    });#}
+
+
     </script>
 </head>
 <body>
+<div class="wrap">
+    <div class="reply">
+        <form action="/assets/etc/input_test.php" method="post">
+            <span> 이름</span>
+            <input type="text" size="5" maxlength="20" value="이름" id="name">
+            <input type="text" size="100" maxlength="60" value="댓글을 입력해 주세요" id="comment">
+            <button id="btn-save" class="btn btn-outline-sparta btn-lg" onclick="save_comment()">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+        </form>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col" style="width:30%">아이디</th>
+                <th scope="col">댓글</th>
 
+            </tr>
+            </thead>
+            <tbody id="tbody-box">
+
+            <tr id="word">
+                <td></td>
+                <td>
+
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+</div>
+</div>
 </body>
 </html>

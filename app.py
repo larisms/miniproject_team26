@@ -19,20 +19,30 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/detail/<post_name>', methods=['GET'])
-def detail(post_name):
-    store_receive = request.args.get("store")
-    result = request.form[db.comment["name","comment"]]
-    print(result)
-    return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
-
-
 # 메인페이지 카드 리스트
 @app.route('/matjip', methods=['GET'])
 def listing():
     matjip_list = list(db.matjips.find({}, {'_id': False}))
 
     return jsonify({'result': 'success', 'matjip_list': matjip_list})
+
+
+
+@app.route('/detail', methods=['GET'])
+def comment_listing():
+    comments= list(db.comment.find({}, {'_id': False}))
+
+    return jsonify({'result': 'success', 'comment_list': comments})
+
+
+
+
+@app.route('/detail/<post_name>')
+def post(post_name):
+    store_receive = request.args.get("store")
+    result = list(db.matjips_post.find({},{'_id':False}))
+    print(result)
+    return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
 
 
 
@@ -50,13 +60,13 @@ def save_comment():
     }
 
     db.comment.insert_one(doc)
-
-@app.route('/detalil/delete_comment')
-def delete_comment():
-
-    comment_receive = request.form["comment_give"]
-    db.comment.delete_one({"comment":comment_receive})
-    return jsonify({'result': 'success', 'msg': f'댓글삭제'})
+#
+# @app.route('/detalil/delete_comment')
+# def delete_comment():
+#
+#     name_recieve = request.form["name_give"]
+#     db.comment.delete_one({"name":name_recieve})
+#     return jsonify({'result': 'success', 'msg': f'댓글삭제'})
 
 
 

@@ -16,7 +16,7 @@ url = "https://m.map.naver.com/search2/search.naver?query=%EC%95%A0%EA%B2%AC%20%
 driver.get(url)
 time.sleep(5)
 
-for i in range(1):
+for i in range(10):
     try:
         btn_more = driver.find_element_by_css_selector("#foodstar-front-location-curation-more-self > div > button")
         btn_more.click()
@@ -35,12 +35,16 @@ places = soup.select("#ct > div.search_listview._content._ctList > ul > li")
 # print(places)
 
 for place in places:
-    title = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > strong").text
-    address = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > div.item_info_inn > div > a").contents[1]
-    image = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.item_thumb._itemThumb > img")['src']
-    category = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em").text
-    # show, episode = place.select_one("div.box_module_cont > div > div > div.mil_inner_tv > span.il_text").text.rsplit(" ", 1)
-    # print(title, address, category, image)
+    try:
+        title = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > strong").text
+        address = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > div.item_info_inn > div > a").contents[1]
+        # image = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.item_thumb._itemThumb > img")
+        category = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em").text
+        # show, episode = place.select_one("div.box_module_cont > div > div > div.mil_inner_tv > span.il_text").text.rsplit(" ", 1)
+        phone = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_btn > a.btn_phone2.sp_map")["href"]
+    except TypeError:
+        pass
+    # print(title, address, category,phone)
 
     headers = {
         "X-NCP-APIGW-API-KEY-ID": "va9dugepnd",
@@ -52,18 +56,18 @@ for place in places:
         if len(response["addresses"]) > 0:
             x = float(response["addresses"][0]["x"])
             y = float(response["addresses"][0]["y"])
-
-            print(title, address, category, image, x, y)
-            # doc = {
-            #     "title": title,
-            #     "address": address,
-            #     "category": category,
-            #     "image": image,
-            #     # "show": show,
-            #     # "episode": episode,
-            #     "mapx": x,
-            #     "mapy": y}
-            # db.matjips.insert_one(doc)
+            print(title, address, category,phone, x, y)
+            doc = {
+                "title": title,
+                "address": address,
+                "category": category,
+                "phone": phone,
+                # "image": image,
+                # "show": show,
+                # "episode": episode,
+                "mapx": x,
+                "mapy": y}
+            db.matjips.insert_one(doc)
 
 
         else:

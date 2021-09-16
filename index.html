@@ -62,6 +62,7 @@
 
 
 
+
     </style>
     <script>
 
@@ -87,7 +88,7 @@
         function make_card(i, matjip) {
             let temp_html = `<div class="card" id="card-${i}">
             <div class="card-body">
-                <h5 class="card-title"><a href="/detail" class="matjip-title">${matjip.title}</a></h5>
+                <h5 class="card-title"><a href="/detail/<post_name>" class="matjip-title">${matjip.title}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">${matjip.category}</h6>
                 <p class="card-text">${matjip.address}</p>
                 <p class="card-text" style="color:blue;">${matjip.phone}</p>
