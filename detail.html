@@ -2,43 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sparta Vocabulary Notebook</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <link href="detail.css" rel="stylesheet" type="text/css">
     <title>Title</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        let title = '{{ title }}'
+        $(document).ready(function () {
+            //detailList()
 
-        function postRunning() {
 
+        })
+
+        $(window).scroll(function () {
+            var scroll = $(window).scrollTop();
+            if (scroll >= 20) {
+                $(".header-wrap").addClass("shadow");
+            } else {
+                $(".header-wrap").removeClass("shadow");
+            }
+        });
+
+        function detailList() {
             $.ajax({
                 type: "GET",
-                url: "/detail",
+                url: "",
                 data: {},
                 success: function (response) {
-                    alert(response["msg"]);
-                    window.location.replace('/');
+                    console.log(response)
+                    $('#title').text(response[''])
+                    $('#address').text(response[''])
+                    $('#detail').text(response[''])
                 }
             })
         }
     </script>
 </head>
 <body>
+<div class="wrap">
+    <div class="header-wrap">
+        <div class="header">
+            <div class="logo">
+                <h1><a href="/">LOGO</a></h1>
+            </div>
+            <div class="sign-box">
+                <span class="sign-in">로그인</span>
+                <span class="sign-up">회원가입</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-con-wrap">
+        <div class="detail-con-box">
+            <!--       <div class="box1"></div>-->
+            <div class="detail-con">
+                <div class="detail-title">
+                    상세 정보
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYvauUVbsu2gfYaOLhVax0d54RmKH71LtBJuwIHZNgH4E4vCvWBjYtwK7BiSE49xsvSP0&usqp=CAU" alt="강아지발바닥"/>
+                </div>
+                <div class="title-wrap">
+                    <div class="title-left">제목</div>
+                    <h2 id="title">
+                        {{ result.title }}
+                    </h2>
+                </div>
+
+                <div id="map">지도</div>
+                <span id="address">주소</span>
+                <p id="detail">세부정보</p>
+                <button onclick="window.location.href('/')">돌아가기</button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>
