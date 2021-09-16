@@ -1,37 +1,37 @@
 <!Doctype html>
-<html lang="ko">
+<html>
 
 <head>
-    <!-- Webpage Title -->
-    <title>호텔가는 멍멍이 부럽다</title>
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-    <!-- mystyle.css -->
-    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
-
+    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
 
 
-    <title>산책로 메인페이지</title>
+    <title>안녕하멍</title>
 
     <!-- style -->
     <style type="text/css">
@@ -50,104 +50,111 @@
             margin-left: 150px;
         }
 
+        #map {
+            width: 80%;
+            height: 50vh;
+            margin: 20px auto 20px auto;
+        }
 
-        /*body {*/
 
 
-        /*    background: url(https://pbs.twimg.com/media/EM90IsGUcAAPtGb.jpg) repeat center center fixed;*/
-        /*    background-size: cover;*/
 
-        /*    -webkit-background-size: cover;*/
 
-        /*    -moz-background-size: cover;*/
 
-        /*    -o-background-size: cover;*/
-        /*    background-position: center;*/
-        /*    background-size: cover;*/
-        /*    width: 2000px;*/
-        /*    height: 400px;*/
-        /*    margin: auto;*/
-        /*}*/
 
 
     </style>
     <script>
 
+
+        let y_cen = 37.4981125 // lat
+        let x_cen = 127.0379399 // long
+        let map;
+        let markers = [];
+        let infowindows = [];
         $(document).ready(function () {
-            showRunning();
-        });
-
-        function postRunning() {
-
-        }
-
-        function searching() {
-            let select_area = $('#select-area').val();
-            let select_time = $('#select-time').val();
-            $.ajax({
-                type: "POST",
-                url: "/order",
-                data: {
-                    name_give: name,
-                    amount_give: amount,
-                    address_give: address,
-                    number_give: number
+            map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(y_cen, x_cen),
+                zoom: 12,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: naver.maps.ZoomControlStyle.SMALL,
+                    position: naver.maps.Position.TOP_RIGHT
                 }
-            })
+            });
+            get_matjips()
+        })
+
+        function make_card(i, matjip) {
+            let temp_html = `<div class="card" id="card-${i}">
+            <div class="card-body">
+                <h5 class="card-title"><a href="/detail" class="matjip-title">${matjip.title}</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">${matjip.category}</h6>
+                <p class="card-text">${matjip.address}</p>
+                <p class="card-text" style="color:blue;">${matjip.phone}</p>
+            </div>
+        </div>`
+            $('#matjip-box').append(temp_html)
+
         }
 
-        function showRunning() {
-            // 메인페이지 진입후 바로 포스트 깔아줄곳
+        {#<p class="card-text" style="color:blue;">${matjip.show}</p>#}
+
+        function get_matjips() {
+            $('#matjip-box').empty();
             $.ajax({
                 type: "GET",
-                url: "/main",
+                url: '/matjip',
                 data: {},
                 success: function (response) {
-                    let post = response['all_post']
-                    for (let i = 0; i < post.length; i++) {
-                        let area = post[i]['area']
-                        let time = post[i]['time']
-                        let title = post[i]['title']
-                        let comment = post[i]['comment']
-                        let map_url = post[i]['map_url']
-                        let file = post[i]['file']
-
-                        let temp_html = `<div class="card" style="width: 30rem;">
-                                            <img class="card-img-top" src="../static/${file}" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${title}</h5>
-                                                <p class="card-text">${comment}</p>
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">${area}</li>
-                                                <li class="list-group-item">${time}</li>
-                                                <li class="list-group-item"></li>
-                                            </ul>
-                                            <div class="card-body">
-                                                <a href="#" class="card-link">${map_url}</a>
-                                                <a href="#" class="card-link">Another link</a>
-                                            </div>
-                                        </div>`
-                        $('#card-box').append(temp_html)
-
+                    let matjips = response["matjip_list"]
+                    for (let i = 0; i < matjips.length; i++) {
+                        let matjip = matjips[i]
+                        console.log(matjip)
+                        make_card(i, matjip);
+                        let marker = make_marker(matjip);
+                        add_info(i, marker, matjip);
                     }
                 }
-            })
-
+            });
         }
 
-        function log_out(){
-            alert('로그아웃 하시겠습니까?')
-            $.ajax({
-                type: "GET",
-                url: "/sign_out",
-                data: {},
-                success: function (response) {
-                     $.removeCookie('mytoken', {path: '/'});
-                     return window.location.replace("/login")
-                }
-            })
 
+        function make_marker(matjip) {
+            let marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(matjip["mapy"], matjip["mapx"]),
+                map: map
+            });
+            markers.push(marker)
+            return marker
+        }
+
+        function add_info(i, marker, matjip) {
+            let html_temp = `<div class="iw-inner">
+                        <h5>${matjip['title']}</h5>
+                        <p>${matjip['address']}
+                        <p>${matjip['phone']}
+                        </div>`;
+            let infowindow = new naver.maps.InfoWindow({
+                content: html_temp,
+                maxWidth: 200,
+                backgroundColor: "#fff",
+                borderColor: "#888",
+                borderWidth: 2,
+                anchorSize: new naver.maps.Size(15, 15),
+                anchorSkew: true,
+                anchorColor: "#fff",
+                pixelOffset: new naver.maps.Point(10, -10)
+            });
+            infowindows.push(infowindow)
+            naver.maps.Event.addListener(marker, "click", function (e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                    map.setCenter(infowindow.position)
+                }
+            });
         }
 
     </script>
@@ -156,81 +163,70 @@
 
 
 <body>
-<!-- 네비게이션 바-->
-    <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
-                <strong class="is-sparta"
-                        style="font-family: 'Stylish', sans-serif;font-size: larger;"></strong>
-            </a>
-        </div>
-        <button onclick="log_out()">로그아웃</button>
-    </nav>
-
-    <div class="wrap">
-        <div class="jumbotron jumbotron-fluid">
-            <div>
-                <button onclick="move()" type="button" class="btn btn-primary">Primary</button>
-            </div>
-            <div class="container">
-                <h1 class="display-4">안녕하멍</h1>
-                <p class="lead">반려견의 산책로</p>
-            </div>
-        </div>
-        <div class="searching_box">
-            <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
-                <div class="input-group-prepend">
-                    <label class="input-group-text">지역</label>
-                </div>
-                <select id="select-area" class="custom-select">
-                    <option selected>지역을 선택 하세요</option>
-                    <option value="종로구">종로구</option>
-                    <option value="중구">중구</option>
-                    <option value="용산구">용산구</option>
-                    <option value="성동구">성동구</option>
-                    <option value="광진구">광진구</option>
-                    <option value="동대문구">동대문구</option>
-                    <option value="중랑구">중랑구</option>
-                    <option value="성북구">성북구</option>
-                    <option value="강북구 ">강북구</option>
-                    <option value="도봉구">도봉구</option>
-                    <option value="노원구">노원구</option>
-                    <option value="은평구">은평구</option>
-                    <option value="서대문구">서대문구</option>
-                    <option value="마포구">마포구</option>
-                    <option value="양천구">양천구</option>
-                    <option value="강서구">강서구</option>
-                    <option value="구로구">구로구</option>
-                    <option value="금천구">금천구</option>
-                    <option value="영등포구">영등포구</option>
-                    <option value="동작구">동작구</option>
-                    <option value="관악구">관악구</option>
-                    <option value="서초구">서초구</option>
-                    <option value="강남구">강남구</option>
-                    <option value="송파구">송파구</option>
-                    <option value="강동구">강동구</option>
-                </select>
-            </div>
-            <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
-                <div class="input-group-prepend">
-                    <label class="input-group-text">시간</label>
-                </div>
-                <select id="select-time" class="custom-select">
-                    <option selected>편도 시간</option>
-                    <option value="29">30분미만</option>
-                    <option value="30">30분이상</option>
-                </select>
-            </div>
-                <div>
-                    <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
-                </div>
-            <div style="clear:both;"></div>
-        </div>
-        <div class="card-columns" id="card-box">
+<div class="wrap">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">안녕하멍</h1>
+            <p class="lead">반려견의 산책로</p>
         </div>
     </div>
+    <div class="searching_box">
+        <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
+            <div class="input-group-prepend">
+                <label class="input-group-text">지역</label>
+            </div>
+            <select id="select-area" class="custom-select">
+                <option selected>지역을 선택 하세요</option>
+                <option value="종로구">종로구</option>
+                <option value="중구">중구</option>
+                <option value="용산구">용산구</option>
+                <option value="성동구">성동구</option>
+                <option value="광진구">광진구</option>
+                <option value="동대문구">동대문구</option>
+                <option value="중랑구">중랑구</option>
+                <option value="성북구">성북구</option>
+                <option value="강북구 ">강북구</option>
+                <option value="도봉구">도봉구</option>
+                <option value="노원구">노원구</option>
+                <option value="은평구">은평구</option>
+                <option value="서대문구">서대문구</option>
+                <option value="마포구">마포구</option>
+                <option value="양천구">양천구</option>
+                <option value="강서구">강서구</option>
+                <option value="구로구">구로구</option>
+                <option value="금천구">금천구</option>
+                <option value="영등포구">영등포구</option>
+                <option value="동작구">동작구</option>
+                <option value="관악구">관악구</option>
+                <option value="서초구">서초구</option>
+                <option value="강남구">강남구</option>
+                <option value="송파구">송파구</option>
+                <option value="강동구">강동구</option>
+            </select>
+        </div>
+        <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
+            <div class="input-group-prepend">
+                <label class="input-group-text">시간</label>
+            </div>
+            <select id="select-time" class="custom-select">
+                <option selected>편도 시간</option>
+                <option value="29">30분미만</option>
+                <option value="30">30분이상</option>
+            </select>
+        </div>
+        <div>
+            <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
+        </div>
+        <div style="clear:both;"></div>
 
+    </div>
+
+    <div id="map"></div>
+    <div class="card-columns" id="matjip-box">
+    </div>
+
+</div>
+</div>
 
 </body>
 
