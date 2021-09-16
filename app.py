@@ -26,28 +26,19 @@ def listing():
 
     return jsonify({'result': 'success', 'matjip_list': matjip_list})
 
+@app.route('/detail')
+def detail():
+    return render_template('detail.html')
 
-
-@app.route('/detail', methods=['GET'])
+@app.route('/detail/list', methods=['GET'])
 def comment_listing():
     comments= list(db.comment.find({}, {'_id': False}))
 
     return jsonify({'result': 'success', 'comment_list': comments})
 
 
-
-
-@app.route('/detail/<post_name>')
-def post(post_name):
-    store_receive = request.args.get("store")
-    result = list(db.matjips_post.find({},{'_id':False}))
-    print(result)
-    return render_template("detail.html", post_name=post_name,result=result, store=store_receive)
-
-
-
-#코멘트 추가 제거
-@app.route('/detail/save_commnet', methods=['post'])
+#코멘트 포스팅
+@app.route('/detail/list', methods=['post'])
 def save_comment():
 
     name_receive = request.form["name_give"]
@@ -60,13 +51,8 @@ def save_comment():
     }
 
     db.comment.insert_one(doc)
+
 #
-# @app.route('/detalil/delete_comment')
-# def delete_comment():
-#
-#     name_recieve = request.form["name_give"]
-#     db.comment.delete_one({"name":name_recieve})
-#     return jsonify({'result': 'success', 'msg': f'댓글삭제'})
 
 
 
