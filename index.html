@@ -1,37 +1,55 @@
 <!Doctype html>
-<html>
+<html lang="ko">
 
 <head>
+    <!-- Webpage Title -->
+    <title>호텔가는 멍멍이 부럽다</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- navermap openapi 인듯하나 확인필요(재성님) -->
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
+    <!-- Bootstrap 쪽인듯하나 확인필요(재성님)-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+
+    <!-- mystyle.css -->
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+
+
+
+
 
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
 
 
-    <title>안녕하멍</title>
+    <title>메인페이지</title>
 
     <!-- style -->
     <style type="text/css">
@@ -57,16 +75,42 @@
         }
 
 
+        /*body {*/
 
 
+        /*    background: url(https://pbs.twimg.com/media/EM90IsGUcAAPtGb.jpg) repeat center center fixed;*/
+        /*    background-size: cover;*/
 
+        /*    -webkit-background-size: cover;*/
 
+        /*    -moz-background-size: cover;*/
+
+        /*    -o-background-size: cover;*/
+        /*    background-position: center;*/
+        /*    background-size: cover;*/
+        /*    width: 2000px;*/
+        /*    height: 400px;*/
+        /*    margin: auto;*/
+        /*}*/
 
 
     </style>
     <script>
+        function log_out() {
+            alert('로그아웃 하시겠습니까?')
+            $.ajax({
+                type: "GET",
+                url: "/sign_out",
+                data: {},
+                success: function (response) {
+                    $.removeCookie('mytoken', {path: '/'});
+                    return window.location.replace("/login")
+                }
+            })
 
+        }
 
+        <!-- 지도 openapi 쪽인듯(재성님)-->
         let y_cen = 37.4981125 // lat
         let x_cen = 127.0379399 // long
         let map;
@@ -87,13 +131,13 @@
 
         function make_card(i, matjip) {
             let temp_html = `<div class="card" id="card-${i}">
-            <div class="card-body">
-                <h5 class="card-title"><a href="/detail" class="matjip-title">${matjip.title}</a></h5>
-                <h6 class="card-subtitle mb-2 text-muted">${matjip.category}</h6>
-                <p class="card-text">${matjip.address}</p>
-                <p class="card-text" style="color:blue;">${matjip.phone}</p>
-            </div>
-        </div>`
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/detail/<post_name>" class="matjip-title">${matjip.title}</a></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">${matjip.category}</h6>
+                                    <p class="card-text">${matjip.address}</p>
+                                    <p class="card-text" style="color:blue;">${matjip.phone}</p>
+                                </div>
+                             </div>`
             $('#matjip-box').append(temp_html)
 
         }
@@ -163,6 +207,18 @@
 
 
 <body>
+<!-- 네비게이션 바-->
+<nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
+            <strong class="is-sparta"
+                    style="font-family: 'Stylish', sans-serif;font-size: larger;"></strong>
+        </a>
+    </div>
+    <button onclick="log_out()">로그아웃</button>
+</nav>
+
 <div class="wrap">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
