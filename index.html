@@ -17,7 +17,7 @@
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
-    <!-- style.css -->
+    <!-- mystyle.css -->
     <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
     <!-- JS -->
@@ -25,7 +25,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <!-- 구글폰트 -->
@@ -97,7 +96,6 @@
             })
         }
 
-
         function showRunning() {
             // 메인페이지 진입후 바로 포스트 깔아줄곳
             $.ajax({
@@ -152,7 +150,6 @@
 
         }
 
-
     </script>
 
 </head>
@@ -163,12 +160,14 @@
     <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <img src="{{ url_for('static', filename='logo_3.png') }}">
+                <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
                 <strong class="is-sparta"
-                        style="font-family: 'Stylish', sans-serif;font-size: larger;">SWEETER</strong>
+                        style="font-family: 'Stylish', sans-serif;font-size: larger;"></strong>
             </a>
         </div>
+        <button onclick="log_out()">로그아웃</button>
     </nav>
+
     <div class="wrap">
         <div class="jumbotron jumbotron-fluid">
             <div>
@@ -223,18 +222,14 @@
                     <option value="30">30분이상</option>
                 </select>
             </div>
-            <div>
-                <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
-            </div>
+                <div>
+                    <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
+                </div>
             <div style="clear:both;"></div>
-
         </div>
         <div class="card-columns" id="card-box">
-
         </div>
-
     </div>
-    <button onclick="log_out()">로그아웃</button>
 
 
 </body>
