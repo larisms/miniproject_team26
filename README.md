@@ -7,23 +7,18 @@
 
 ## 프로젝트<br/>
 ### 완성사이트
- <a href="http://54.180.143.1">MONGTEL</a>
+ <a href="http://54.180.143.1">MONGTEL webpage</a>
+ <a href="https://youtu.be/sil2d1HrQvQ">MONGTEL youtube</a>
 
- - 반려견호텔의 위치와 정보 그리고 후기를 알려주는 웹입니다.
- - 페이지는 로그인/회원가입, 메인페이지, 후기 등록 페이지로 구성되어있습니다.
- - 회원가입과 로그인을 거치면, 메인페이지에 접속할수 있습니다.
- - 지도를 이용해서 반려견호텔의 위치를 확인할 수 있고, 북마크를 이용하여 저장할 수 있습니다.
- - 카드 클릭시 리뷰와 좋아요를 남길 수 있습니다.
+1500만 반려동물 인구 시대에 맞춘 서울시 반려견 호텔찾기 서비스 입니다.
+네이버지도 open api를 이용해 지도상의 위치와 플레이스 리스트를 한번에 확인할 수 있습니다.
+각 플레이스 카드를 통해 상세페이지로 전환되며, 상세페이지에서는 해당 플레이스에 대한 사용자들의 댓글을 남길 수 있고, 그 댓글들에 대한 좋아요 기능을 구현했습니다.
+서버는 flask 로 구현, selenium을 활용하여 스크래핑하였으며, 로그인/로그아웃에는 JWT 방식이 사용되었습니다. 
+웹페이지는 AWS EC2로 최종배포하였습니다. 
 
 ## 와이어프레임 <br/>
 <img src="https://user-images.githubusercontent.com/85733702/133069628-b0424ef3-2ca6-4ffc-8882-83283ae9c40e.jpeg" alt = "와이어프레임" style="width:45%;"/>
 <img src="https://user-images.githubusercontent.com/85733702/133069674-d81de542-ef95-4450-874d-dccf0148abe3.jpeg" alt = "와이어프레임" style="width:45%;"/>
 
-## 예상되는 API 목록<br/>
- - 회원가입 기능 / POST / api/register
- - 로그인 기능 / POST / api/login / 
- - 메인페이지 리스트업 기능 / GET / api/main
- - 지도 기능 / GET / api/main
- - 포스트 기능 / POST / api/detail
  
 
