@@ -1,242 +1,323 @@
-<!Doctype html>
-<html lang="en">
+    <!Doctype html>
+    <html lang="en">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-
-    <!-- 구글폰트 -->
-    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
-    <!-- Bulma CSS 링크 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link href="{{ url_for('static', filename='dog.css') }}" rel="stylesheet">
-
-    {#    <script language="javascript">#}
-    {#        function showPopup() {#}
-    {#            window.open("search.html", "a", "width=400, height=300, left=100, top=50");#}
-    {#        }#}
-    {#    </script>#}
+        {#    og,favicon#}
+        <meta property="og:title" content="몽텔"/>
+        <meta property="og:description" content="mongtel"/>
+        <meta property="og:image" content="{{ url_for('static', filename='') }}"/>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
 
-    <title>안녕하멍</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
-    <!-- style -->
-    <style type="text/css">
-
-        .wrap {
-            width: 1905px;
-            margin: auto;
-        }
-
-        .jumbotron {
-            height: 350px;
-        }
-
-
-        #map {
-            width: 80%;
-            height: 50vh;
-            margin: 20px auto 20px auto;
-        }
-
-        .cards-box{
-            display:flex;
-            flex-wrap:nowrap;
-            justify-content: center;
-        }
-
-        .card {
-            width: 25%;
-            margin:10px;
-        }
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript"
+                src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
 
 
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+        <!-- Bulma CSS 링크 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <link href="{{ url_for('static', filename='dog.css') }}" rel="stylesheet">
 
 
-    </style>
+        <title>안녕하멍</title>
+
+        <!-- style -->
+        <style type="text/css">
+            body {
+                background-color: RGBA(255, 242, 226);
+
+            }
+
+            .body {
+                width: 1080px;
+                margin: 0 auto;
+                font-family: 'Poor Story', cursive;
+            }
+
+            .wrap {
+                width: 100%;
+            }
 
 
-    <script>
+            .map-wrap {
+                padding: 50px;
+                width: 1080px;
+                margin: 50px auto;
+            }
+
+            #map {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .cards-box {
+                width: 1080px;
+                height: 300px;
+                margin: 0 auto;
+                overflow: scroll;
+            }
+
+            .card {
+                width: 490px;
+                height: 250px;
+                margin: 20px;
+                display: inline-block;
+            }
+        </style>
 
 
-        let y_cen = 37.4981125 // lat
-        let x_cen = 127.0379399 // long
-        let map;
-        let markers = [];
-        let infowindows = [];
-        $(document).ready(function () {
-            map = new naver.maps.Map('map', {
-                center: new naver.maps.LatLng(y_cen, x_cen),
-                zoom: 12,
-                zoomControl: true,
-                zoomControlOptions: {
-                    style: naver.maps.ZoomControlStyle.SMALL,
-                    position: naver.maps.Position.TOP_RIGHT
-                }
-            });
-            get_matjips()
-        })
+        <script>
 
-        function make_card(i, matjip) {
-            let temp_html = `<div class="card" id="card-${i}">
-        <header class="card-header">
-            <p class="card-header-title">
-                ${matjip.title}
-            </p>
-            <button class="card-header-icon" aria-label="more options">
-      <span class="icon">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-            </button>
-        </header>
-        <div class="card-content">
-            <div class="content">
-                ${matjip.address}
-                <br>
-                <p>${matjip.category}</p>
-            </div>
-        </div>
-        <footer class="card-footer">
-            <a href="/detail" class="card-footer-item">상세페이지</a>
-            <a href="#" class="card-footer-item">${matjip.phone}</a>
-
-        </footer>
-    </div>`
-            $('#cards-box').append(temp_html)
-
-
-        }
-
-        {#<p class="card-text" style="color:blue;">${matjip.show}</p>#}
-
-        function get_matjips() {
-            $('#cards-box').empty();
-            $.ajax({
-                type: "GET",
-                url: '/matjip',
-                data: {},
-                success: function (response) {
-                    let matjips = response["matjip_list"]
-                    for (let i = 0; i < matjips.length; i++) {
-                        let matjip = matjips[i]
-
-                        make_card(i, matjip);
-                        let marker = make_marker(matjip);
-                        add_info(i, marker, matjip);
-
-
+            let y_cen = 37.4981125;   // lat
+            let x_cen = 127.0379399;  // long
+            let map;
+            let markers = [];
+            let infowindows = [];
+            $(document).ready(function () {
+                map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(y_cen, x_cen),
+                    zoom: 12,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: naver.maps.ZoomControlStyle.SMALL,
+                        position: naver.maps.Position.TOP_RIGHT
                     }
+                });
+
+                get_matjips()
+            });
+
+            function get_matjips() {
+                $('#cards-box').empty();
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                    infowindows[i].close()
                 }
-            });
-        }
+                markers = [];
+                infowindows = [];
+
+                $.ajax({
+                    type: "GET",
+                    url: `/matjip`,
+                    data: {},
+                    success: function (response) {
+                        let matjips = response["matjip_list"];
+                        console.log(matjips.length);
+                        for (let i = 0; i < matjips.length; i++) {
+                            let matjip = matjips[i];
+                            make_card(i, matjip);
+                            let marker = make_marker(matjip);
+                            add_info(i, marker, matjip)
+                        }
+                    }
+                });
+            }
+
+            function make_marker(matjip) {
+                let marker_img = '';
+                if ("liked" in matjip) {
+                    marker_img = '{{ url_for("static", filename="mark02.png") }}'
+                } else {
+                    marker_img = '{{ url_for("static", filename="mark01.png") }}'
+                }
+                let marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(matjip["mapy"], matjip["mapx"]),
+                    map: map,
+                    icon: marker_img
+                });
+                markers.push(marker);
+                return marker
+            }
+
+            function make_card(i, matjip) {
+                let html_temp = ``;
+                if ("liked" in matjip) {
+
+                    html_temp = `<div class="card" id="card-${i}">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            <a href="javascript:click2center(${i})">${matjip['title']}</a>
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            ${matjip.address}
+                                            <br>
+                                            <p>${matjip.category}</p>
+                                            <i class="fa fa-bookmark" onclick="bookmark('${matjip['title']}', '${matjip['address']}', 'unlike')"></i>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="/detail" class="card-footer-item">상세페이지</a>
+                                        <a href="#" class="card-footer-item">${matjip.phone}</a>
+                                    </footer>
+                                </div>`
+                } else {
+                    html_temp = `<div class="card" id="card-${i}">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    <a href="javascript:click2center(${i})">${matjip['title']}</a>
+                                </p>
+
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    ${matjip.address}
+                                    <br>
+                                    <p>${matjip.category}</p>
+                                    <i class="fa fa-bookmark-o" onclick="bookmark('${matjip['title']}', '${matjip['address']}', 'like')"></i>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="/detail" class="card-footer-item">상세페이지</a>
+                                <a href="#" class="card-footer-item">${matjip.phone}</a>
+                            </footer>
+                        </div>`
+                }
 
 
-        function make_marker(matjip) {
-            let marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(matjip["mapy"], matjip["mapx"]),
-                map: map
-            });
-            markers.push(marker)
-            return marker
-        }
+                $('#cards-box').append(html_temp);
+            }
 
-        function add_info(i, marker, matjip) {
-            let html_temp = `
-                        <div class="iw-inner">
-                        <h5>${matjip['title']}</h5>
-                        <p>${matjip['address']}
-                        <p>${matjip['phone']}
-                        </div>`;
-            let infowindow = new naver.maps.InfoWindow({
-                content: html_temp,
-                maxWidth: 200,
-                backgroundColor: "#fff",
-                borderColor: "#888",
-                borderWidth: 2,
-                anchorSize: new naver.maps.Size(15, 15),
-                anchorSkew: true,
-                anchorColor: "#fff",
-                pixelOffset: new naver.maps.Point(10, -10)
-            });
-            infowindows.push(infowindow)
-            naver.maps.Event.addListener(marker, "click", function (e) {
+            function add_info(i, marker, matjip) {
+                let html_temp = `<div class="iw-inner">
+                                    <h5>${matjip['title']}</h5>
+                                    <p>${matjip['address']}
+                                    </div>`;
+                let infowindow = new naver.maps.InfoWindow({
+                    content: html_temp,
+                    maxWidth: 200,
+                    backgroundColor: "#fff",
+                    borderColor: "#888",
+                    borderWidth: 2,
+                    anchorSize: new naver.maps.Size(15, 15),
+                    anchorSkew: true,
+                    anchorColor: "#fff",
+                    pixelOffset: new naver.maps.Point(10, -10)
+                });
+                infowindows.push(infowindow);
+                naver.maps.Event.addListener(marker, "click", function (e) {
+                    console.log("clicked", infowindows.length);
+                    if (infowindow.getMap()) {
+                        infowindow.close();
+                    } else {
+                        infowindow.open(map, marker);
+                        map.setCenter(infowindow.position);
+                        $("#cards-box").animate({
+                            scrollTop: $("#cards-box").get(0).scrollTop + $(`#card-${i}`).position().top
+                        }, 2000);
+                    }
+                });
+            }
+
+            function click2center(i) {
+                let marker = markers[i];
+                let infowindow = infowindows[i];
                 if (infowindow.getMap()) {
                     infowindow.close();
                 } else {
                     infowindow.open(map, marker);
                     map.setCenter(infowindow.position)
                 }
-            });
-        }
+            }
+
+            function bookmark(title, address, action) {
+                $.ajax({
+                    type: "POST",
+                    url: "/like_matjip",
+                    data: {
+                        title_give: title,
+                        address_give: address,
+                        action_give: action
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            get_matjips()
+                        }
+                    }
+                })
+            }
+        </script>
+
+    </head>
 
 
-    </script>
-
-</head>
-
-
-<body>
-<div class="wrap">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">안녕하멍</h1>
-            <p class="lead">반려견의 산책로</p>
-        </div>
-    </div>
-
-    <div id="map"></div>
-<div class="cards-box" id="cards-box">
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">
-                ${matjip.title}
-            </p>
-            <button class="card-header-icon" aria-label="more options">
-      <span class="icon">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-            </button>
-        </header>
-        <div class="card-content">
-            <div class="content">
-                ${matjip.address}
-                <br>
-                <p>${majip.category}</p>
+    <body>
+    <div class="body">
+        <div class="wrap">
+            <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
+                    </a>
+                </div>
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        <img class="signout_nav" src="{{ url_for('static', filename='signout_nav.png') }}"
+                             onclick="log_out()">
+                    </a>
+                </div>
+            </nav>
+            <div class="map-wrap ">
+                <div id="map"></div>
             </div>
+            <div class="cards-box" id="cards-box">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            ${matjip.title}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            ${matjip.address}
+                            <br>
+                            <p>${majip.category}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="/detail" class="card-footer-item">상세페이지</a>
+                        <a href="#" class="card-footer-item">${matjip.phone}</a>
+
+                    </footer>
+                </div>
+            </div>
+
         </div>
-        <footer class="card-footer">
-            <a href="/detail" class="card-footer-item">상세페이지</a>
-            <a href="#" class="card-footer-item">${matjip.phone}</a>
 
-        </footer>
     </div>
-</div>
+    </body>
 
-</div>
-
-
-</body>
-
-</html>
+    </html>

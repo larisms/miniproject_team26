@@ -21,11 +21,6 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/search')
-def popup():
-    # matjip_list = list(db.matjips.find({}, {'_id': False}))
-
-    return render_template('search.html')
 
 
 
@@ -77,7 +72,19 @@ def save_comment():
     return jsonify({'msg': '저장 완료!'})
 
 
-# search
+
+@app.route('/like_matjip', methods=["POST"])
+def like_matjip():
+    title_receive = request.form["title_give"]
+    address_receive = request.form["address_give"]
+    action_receive = request.form["action_give"]
+    print(title_receive, address_receive, action_receive)
+
+    if action_receive == "like":
+        db.matjips.update_one({"title": title_receive, "address": address_receive}, {"$set": {"liked": True}})
+    else:
+        db.matjips.update_one({"title": title_receive, "address": address_receive}, {"$unset": {"liked": False}})
+    return jsonify({'result': 'success'})
 
 
 
@@ -99,40 +106,6 @@ def save_comment():
 
 
 
-
-
-
-# @app.route('/create', methods=['POST'])
-# def saving():
-#     area_receive = request.form['area_give']
-#     time_receive = request.form['time_give']
-#     title_receive = request.form['title_give']
-#     comment_receive = request.form['comment_give']
-#     map_url_receive = request.form['map_url_give']
-#     file = request.files["file_give"]
-#
-#     extension = file.filename.split('.')[-1]
-#
-#     today = datetime.now()
-#     mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-#     filename = f'file-{mytime}'
-#
-#     save_to = f'static/{filename}.{extension}'
-#     file.save(save_to)
-#
-#     doc = {
-#         'area': area_receive,
-#         'time': time_receive,
-#         'title': title_receive,
-#         'comment': comment_receive,
-#         'map_url': map_url_receive,
-#         'file': f'{filename}.{extension}'
-#
-#     }
-#
-#     db.walkPlace.insert_one(doc)
-
-    # return jsonify({'msg': '저장이 완료되었습니다.'})
 
 
 
