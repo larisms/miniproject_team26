@@ -16,8 +16,8 @@
 서버는 flask 로 구현, selenium을 활용하여 스크래핑하였으며, 로그인/로그아웃에는 JWT 방식이 사용되었습니다.<br/>
 웹페이지는 AWS EC2로 최종배포하였습니다. 
 
-## 와이어프레임 <br/>
-https://github.com/larisms/project_team26/blob/bc6719510fcb9d00e05c450b2ec1f6a26d0d2dcf/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A7%84%ED%96%89%EC%9D%BC%EC%A7%80
+## 프로젝트진행일지 <br/>
+<a href="https://github.com/larisms/project_team26/blob/bc6719510fcb9d00e05c450b2ec1f6a26d0d2dcf/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A7%84%ED%96%89%EC%9D%BC%EC%A7%80"> MONGTEL 프로젝트 진행일지</a>
 
 ## 와이어프레임 <br/>
 <img src="https://user-images.githubusercontent.com/85733702/133069628-b0424ef3-2ca6-4ffc-8882-83283ae9c40e.jpeg" alt = "와이어프레임" style="width:45%;"/>
