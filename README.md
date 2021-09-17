@@ -17,6 +17,9 @@
 웹페이지는 AWS EC2로 최종배포하였습니다. 
 
 ## 와이어프레임 <br/>
+https://github.com/larisms/project_team26/blob/bc6719510fcb9d00e05c450b2ec1f6a26d0d2dcf/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A7%84%ED%96%89%EC%9D%BC%EC%A7%80
+
+## 와이어프레임 <br/>
 <img src="https://user-images.githubusercontent.com/85733702/133069628-b0424ef3-2ca6-4ffc-8882-83283ae9c40e.jpeg" alt = "와이어프레임" style="width:45%;"/>
 <img src="https://user-images.githubusercontent.com/85733702/133069674-d81de542-ef95-4450-874d-dccf0148abe3.jpeg" alt = "와이어프레임" style="width:45%;"/>
 
