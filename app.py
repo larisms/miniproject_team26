@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
 
+
 client = MongoClient('15.164.170.238', 27017, username="test", password="test")
 db = client.dbhomework_week1
 
@@ -16,7 +17,17 @@ db = client.dbhomework_week1
 ## HTML을 주는 부분
 @app.route('/')
 def home():
+
     return render_template('index.html')
+
+
+@app.route('/search')
+def popup():
+    # matjip_list = list(db.matjips.find({}, {'_id': False}))
+
+    return render_template('search.html')
+
+
 
 
 # 메인페이지 카드 리스트
@@ -26,9 +37,15 @@ def listing():
 
     return jsonify({'result': 'success', 'matjip_list': matjip_list})
 
+
+
+
 @app.route('/detail')
 def detail():
+
     return render_template('detail.html')
+
+
 
 @app.route('/detail/list', methods=['GET'])
 def comment_listing():
@@ -44,18 +61,23 @@ def save_comment():
     name_receive = request.form["name_give"]
     comment_receive= request.form["comment_give"]
 
+    today = datetime.now()
+    mytime = today.strftime('%Y.%m.%d')
+
     doc = {
         "name":name_receive,
-        "comment":comment_receive
+        "comment":comment_receive,
+        "time":mytime
 
     }
 
+
     db.comment.insert_one(doc)
 
-#
+    return jsonify({'msg': '저장 완료!'})
 
 
-
+# search
 
 
 

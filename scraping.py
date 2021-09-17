@@ -30,21 +30,19 @@ driver.quit()
 soup = BeautifulSoup(req, 'html.parser')
 
 places = soup.select("#ct > div.search_listview._content._ctList > ul > li")
-#ct > div.search_listview._content._ctList > ul > li
 
-# print(places)
 
 for place in places:
     try:
         title = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > strong").text
         address = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > div.item_info_inn > div > a").contents[1]
-        # image = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.item_thumb._itemThumb > img")
+
         category = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em").text
-        # show, episode = place.select_one("div.box_module_cont > div > div > div.mil_inner_tv > span.il_text").text.rsplit(" ", 1)
+
         phone = place.select_one("#ct > div.search_listview._content._ctList > ul > li > div.item_btn > a.btn_phone2.sp_map")["href"]
     except TypeError:
         pass
-    # print(title, address, category,phone)
+
 
     headers = {
         "X-NCP-APIGW-API-KEY-ID": "va9dugepnd",
@@ -62,9 +60,6 @@ for place in places:
                 "address": address,
                 "category": category,
                 "phone": phone,
-                # "image": image,
-                # "show": show,
-                # "episode": episode,
                 "mapx": x,
                 "mapy": y}
             db.matjips.insert_one(doc)

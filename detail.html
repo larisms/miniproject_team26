@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sparta Vocabulary Notebook</title>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -20,6 +20,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+
     <title>Title</title>
     <style>
         .table {
@@ -42,7 +46,9 @@
     </style>
     <script>
 
+
         $(document).ready(function () {
+
             listing();
         });
 
@@ -57,12 +63,14 @@
                     let comment = response
                     for (let i = 0; i < comment.length; i++) {
                         let name = comment[i]['name'];
-                        let comment = comment[i]['amount'];
+                        let comment = comment[i]['comment'];
+                        let time = comment[i]['time'];
                         let temp_html = `<tr id="word">
                     <td>${name}</td>
-                    <td>${comment}
-
-                    </td>`
+                    <td>${comment}</td>
+                    <td>${time}</td>
+                    </tr>
+                    `
 
 
                         $('#tbody-box').append(temp_html)
@@ -75,8 +83,8 @@
 
         function save_comment() {
 
-            let name = $('#name').val
-            let comment = $('#comment').val
+            let name = $('#name').val();
+            let comment = $('#comment').val();
 
             $.ajax({
                 type: "POST",
@@ -95,56 +103,11 @@
         }
 
 
-        //딜리트버튼누르면 메인페이지
-        {#function delete_word() {#}
-        {#    $.ajax({#}
-        {#        type: "POST",#}
-        {#        url: `/api/delete_post`,#}
-        {#        data: {#}
-        {#            name_give: "{{ result.name }}"#}
-        {#        },#}
-        {#        success: function (response) {#}
-        {#            alert(response["msg"])#}
-        {#            window.location.href = "/"#}
-        {#        }#}
-        {#    });#}
 
 
     </script>
 </head>
 <body>
-<div class="wrap">
-    <div class="reply">
-        <form action="/assets/etc/input_test.php">
-            <span> 이름</span>
-            <input type="text" size="5" maxlength="20" value="이름" id="name">
-            <input type="text" size="100" maxlength="60" value="댓글을 입력해 주세요" id="comment">
-            <button id="btn-save" class="btn btn-outline-sparta btn-lg" onclick="save_comment()">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-            </button>
-        </form>
-        <table class="table">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col" style="width:30%">아이디</th>
-                <th scope="col">댓글</th>
-
-            </tr>
-            </thead>
-            <tbody id="tbody-box">
-
-            <tr id="word">
-
-            </tr>
-
-
-            </tbody>
-        </table>
-
-
-    </div>
-</div>
-</div>
-</div>
+안뇽
 </body>
 </html>

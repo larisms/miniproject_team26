@@ -1,5 +1,5 @@
 <!Doctype html>
-<html>
+<html lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -29,6 +29,15 @@
 
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="{{ url_for('static', filename='dog.css') }}" rel="stylesheet">
+
+    {#    <script language="javascript">#}
+    {#        function showPopup() {#}
+    {#            window.open("search.html", "a", "width=400, height=300, left=100, top=50");#}
+    {#        }#}
+    {#    </script>#}
 
 
     <title>안녕하멍</title>
@@ -37,7 +46,7 @@
     <style type="text/css">
 
         .wrap {
-            width: 1910px;
+            width: 1905px;
             margin: auto;
         }
 
@@ -45,10 +54,6 @@
             height: 350px;
         }
 
-        .card-columns {
-            margin-top: 50px;
-            margin-left: 150px;
-        }
 
         #map {
             width: 80%;
@@ -56,14 +61,23 @@
             margin: 20px auto 20px auto;
         }
 
+        .cards-box{
+            display:flex;
+            flex-wrap:nowrap;
+            justify-content: center;
+        }
 
-
-
+        .card {
+            width: 25%;
+            margin:10px;
+        }
 
 
 
 
     </style>
+
+
     <script>
 
 
@@ -87,21 +101,38 @@
 
         function make_card(i, matjip) {
             let temp_html = `<div class="card" id="card-${i}">
-            <div class="card-body">
-                <h5 class="card-title"><a href="/detail" class="matjip-title">${matjip.title}</a></h5>
-                <h6 class="card-subtitle mb-2 text-muted">${matjip.category}</h6>
-                <p class="card-text">${matjip.address}</p>
-                <p class="card-text" style="color:blue;">${matjip.phone}</p>
+        <header class="card-header">
+            <p class="card-header-title">
+                ${matjip.title}
+            </p>
+            <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+            </button>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                ${matjip.address}
+                <br>
+                <p>${matjip.category}</p>
             </div>
-        </div>`
-            $('#matjip-box').append(temp_html)
+        </div>
+        <footer class="card-footer">
+            <a href="/detail" class="card-footer-item">상세페이지</a>
+            <a href="#" class="card-footer-item">${matjip.phone}</a>
+
+        </footer>
+    </div>`
+            $('#cards-box').append(temp_html)
+
 
         }
 
         {#<p class="card-text" style="color:blue;">${matjip.show}</p>#}
 
         function get_matjips() {
-            $('#matjip-box').empty();
+            $('#cards-box').empty();
             $.ajax({
                 type: "GET",
                 url: '/matjip',
@@ -110,10 +141,12 @@
                     let matjips = response["matjip_list"]
                     for (let i = 0; i < matjips.length; i++) {
                         let matjip = matjips[i]
-                        console.log(matjip)
+
                         make_card(i, matjip);
                         let marker = make_marker(matjip);
                         add_info(i, marker, matjip);
+
+
                     }
                 }
             });
@@ -130,7 +163,8 @@
         }
 
         function add_info(i, marker, matjip) {
-            let html_temp = `<div class="iw-inner">
+            let html_temp = `
+                        <div class="iw-inner">
                         <h5>${matjip['title']}</h5>
                         <p>${matjip['address']}
                         <p>${matjip['phone']}
@@ -157,6 +191,7 @@
             });
         }
 
+
     </script>
 
 </head>
@@ -170,63 +205,37 @@
             <p class="lead">반려견의 산책로</p>
         </div>
     </div>
-    <div class="searching_box">
-        <div class="input-group mb-1" style="float:left;width: 20%;margin-right:30px;margin-left: 500px">
-            <div class="input-group-prepend">
-                <label class="input-group-text">지역</label>
-            </div>
-            <select id="select-area" class="custom-select">
-                <option selected>지역을 선택 하세요</option>
-                <option value="종로구">종로구</option>
-                <option value="중구">중구</option>
-                <option value="용산구">용산구</option>
-                <option value="성동구">성동구</option>
-                <option value="광진구">광진구</option>
-                <option value="동대문구">동대문구</option>
-                <option value="중랑구">중랑구</option>
-                <option value="성북구">성북구</option>
-                <option value="강북구 ">강북구</option>
-                <option value="도봉구">도봉구</option>
-                <option value="노원구">노원구</option>
-                <option value="은평구">은평구</option>
-                <option value="서대문구">서대문구</option>
-                <option value="마포구">마포구</option>
-                <option value="양천구">양천구</option>
-                <option value="강서구">강서구</option>
-                <option value="구로구">구로구</option>
-                <option value="금천구">금천구</option>
-                <option value="영등포구">영등포구</option>
-                <option value="동작구">동작구</option>
-                <option value="관악구">관악구</option>
-                <option value="서초구">서초구</option>
-                <option value="강남구">강남구</option>
-                <option value="송파구">송파구</option>
-                <option value="강동구">강동구</option>
-            </select>
-        </div>
-        <div class="input-group mb-2" style="float:left;width: 20%; margin-right:50px;">
-            <div class="input-group-prepend">
-                <label class="input-group-text">시간</label>
-            </div>
-            <select id="select-time" class="custom-select">
-                <option selected>편도 시간</option>
-                <option value="29">30분미만</option>
-                <option value="30">30분이상</option>
-            </select>
-        </div>
-        <div>
-            <button onclick="searching()" type="button" class="btn mybtn" style="float:left;">검색</button>
-        </div>
-        <div style="clear:both;"></div>
-
-    </div>
 
     <div id="map"></div>
-    <div class="card-columns" id="matjip-box">
+<div class="cards-box" id="cards-box">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                ${matjip.title}
+            </p>
+            <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+            </button>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                ${matjip.address}
+                <br>
+                <p>${majip.category}</p>
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a href="/detail" class="card-footer-item">상세페이지</a>
+            <a href="#" class="card-footer-item">${matjip.phone}</a>
+
+        </footer>
     </div>
+</div>
 
 </div>
-</div>
+
 
 </body>
 
