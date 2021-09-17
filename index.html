@@ -49,6 +49,7 @@
         .card-columns {
             margin-top: 50px;
             margin-left: 150px;
+            /*width: 1500px;*/
         }
 
         #map {
@@ -56,6 +57,9 @@
             height: 50vh;
             margin: 20px auto 20px auto;
         }
+
+
+
 
 
 
@@ -182,11 +186,14 @@
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
             <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
-            <strong class="is-sparta"
-                    style="font-family: 'Stylish', sans-serif;font-size: larger;"></strong>
         </a>
     </div>
-    <button onclick="log_out()">로그아웃</button>
+    <div class="navbar-brand">
+        <a class="navbar-item">
+            <img class="signout_nav" src="{{ url_for('static', filename='signout_nav.png') }}" onclick="log_out()">
+        </a>
+    </div>
+
 </nav>
 <div class="wrap">
     <div class="jumbotron jumbotron-fluid">
