@@ -18,6 +18,9 @@
 서버는 flask 로 구현, selenium을 활용하여 스크래핑하였으며, 로그인/로그아웃에는 JWT 방식이 사용되었습니다.<br/>
 웹페이지는 AWS EC2로 최종배포하였습니다. 
 
+## 문제인식 해결 <br/>
+<a href="https://github.com/larisms/project_team26/blob/972ccb697c4ae27c0cd5c0b0090854c98c28973f/%EB%AC%B8%EC%A0%9C%EC%9D%B8%EC%8B%9D%20%ED%95%B4%EA%B2%B0"> 문제인식 해결과정 </a>
+
 ## 프로젝트진행일지 <br/>
 <a href="https://github.com/larisms/project_team26/blob/bc6719510fcb9d00e05c450b2ec1f6a26d0d2dcf/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%A7%84%ED%96%89%EC%9D%BC%EC%A7%80"> MONGTEL 프로젝트 진행일지</a>
 
