@@ -97,24 +97,24 @@ def check_dup():
 ###### 여기서부터 메인페이지
 
 # 메인페이지 카드 리스트
-@app.route('/matjip', methods=['GET'])
+@app.route('/doghotel', methods=['GET'])
 def listing():
-    matjip_list = list(db.matjips.find({}, {'_id': False}))
+    doghotel_list = list(db.doghotels.find({}, {'_id': False}))
 
-    return jsonify({'result': 'success', 'matjip_list': matjip_list})
+    return jsonify({'result': 'success', 'doghotel_list': doghotel_list})
 
 
-@app.route('/like_matjip', methods=["POST"])
-def like_matjip():
+@app.route('/like_doghotel', methods=["POST"])
+def like_doghotel():
     title_receive = request.form["title_give"]
     address_receive = request.form["address_give"]
     action_receive = request.form["action_give"]
     print(title_receive, address_receive, action_receive)
 
     if action_receive == "like":
-        db.matjips.update_one({"title": title_receive, "address": address_receive}, {"$set": {"liked": True}})
+        db.doghotels.update_one({"title": title_receive, "address": address_receive}, {"$set": {"liked": True}})
     else:
-        db.matjips.update_one({"title": title_receive, "address": address_receive}, {"$unset": {"liked": False}})
+        db.doghotels.update_one({"title": title_receive, "address": address_receive}, {"$unset": {"liked": False}})
     return jsonify({'result': 'success'})
 
 

@@ -68,7 +68,7 @@ for place in places:
                 # "episode": episode,
                 "mapx": x,
                 "mapy": y}
-            db.matjips.insert_one(doc)
+            db.doghotels.insert_one(doc)
 
 
         else:

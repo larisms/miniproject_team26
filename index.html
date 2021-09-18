@@ -1,0 +1,367 @@
+<!Doctype html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+
+    {#    og,favicon#}
+        <meta property="og:title" content="몽텔"/>
+        <meta property="og:description" content="mongtel"/>
+        <meta property="og:image" content="{{ url_for('static', filename='') }}"/>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=va9dugepnd&submodules=geocoder"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- mystyle.CSS -->
+    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+
+    <title>MONGTEL</title>
+
+    <!-- style -->
+    <style type="text/css">
+            body {
+                background-color: RGBA(255, 242, 226);
+
+            }
+
+            .body {
+                width: 1080px;
+                margin: 0 auto;
+                font-family: 'Poor Story', cursive;
+            }
+
+            .wrap {
+                width: 100%;
+            }
+
+
+            .map-wrap {
+                padding: 50px;
+                width: 1080px;
+                margin: 50px auto;
+            }
+
+            #map {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .cards-box {
+                width: 1080px;
+                height: 300px;
+                margin: 0 auto;
+                overflow: scroll;
+            }
+
+            .card {
+                width: 490px;
+                height: 250px;
+                margin: 20px;
+                display: inline-block;
+            }
+
+            .card-header {
+                align-items: center;
+                display: flex;
+            }
+
+            .fa {
+                font-size: 25px;
+            }
+
+    </style>
+    <script>
+
+            //좌표값, 마커, 맵에서 상세정보 띄우기 변수값 설정
+            let y_cen = 37.4981125;   // lat
+            let x_cen = 127.0379399;  // long
+            let map;
+            let markers = [];
+            let infowindows = [];
+            //페이지 열릴때 지도세팅, 지도 컨트롤 설정 후, 겟도그호텔 펑션 실행
+            $(document).ready(function () {
+                map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(y_cen, x_cen),
+                    zoom: 12,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: naver.maps.ZoomControlStyle.SMALL,
+                        position: naver.maps.Position.TOP_RIGHT
+                    }
+                });
+
+                get_doghotels()
+            });
+
+            //도그 호텔 실행하면서 카드박스 비우고 for문으로 지도위에 마커세팅, 인포창은 닫아둔 상태로 세팅
+            function get_doghotels() {
+                $('#cards-box').empty();
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                    infowindows[i].close()
+                }
+                //마커와 인포창 비운상태로 설정해주기
+                markers = [];
+                infowindows = [];
+                //get 요청으로 받아온 값을 for문으로 카드, 마커, 인포창에 뿌리기
+                $.ajax({
+                    type: "GET",
+                    url: `/doghotel`,
+                    data: {},
+                    success: function (response) {
+                        let doghotels = response["doghotel_list"];
+                        console.log(doghotels.length);
+                        for (let i = 0; i < doghotels.length; i++) {
+                            let doghotel = doghotels[i];
+                            make_card(i, doghotel);
+                            let marker = make_marker(doghotel);
+                            add_info(i, marker, doghotel)
+                        }
+                    }
+                });
+            }
+            // 마커 이미지를 빈칸으로 설정후 좋아요 설정에 따라 마크 이미지파일 변경
+            function make_marker(doghotel) {
+                let marker_img = '';
+                if ("liked" in doghotel) {
+                    marker_img = '{{ url_for("static", filename="mark02.png") }}'
+                } else {
+                    marker_img = '{{ url_for("static", filename="mark01.png") }}'
+                }
+                let marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(doghotel["mapy"], doghotel["mapx"]),
+                    map: map,
+                    icon: marker_img
+                });
+                //푸쉬로 마커 넣기
+                markers.push(marker);
+                return marker
+            }
+            //카드 템플릿에 디비값 넣어서 리스트 북마크 설정에 따라 like, unlike 로 디비에 데이터 전달 후 구분
+            function make_card(i, doghotel) {
+                let html_temp = ``;
+                if ("liked" in doghotel) {
+
+                    html_temp = `<div class="card" id="card-${i}">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            <a href="javascript:click2center(${i})">${doghotel['title']}</a>
+                                        </p>
+                                        <i class="fa fa-bookmark" onclick="bookmark('${doghotel['title']}', '${doghotel['address']}', 'unlike')"></i>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            ${doghotel.address}
+                                            <br>
+                                            <p>${doghotel.category}</p>
+
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="/detail" class="card-footer-item">리뷰페이지</a>
+                                        <a href="#" class="card-footer-item">${doghotel.phone}</a>
+                                    </footer>
+                                </div>`
+                } else {
+                    html_temp = `<div class="card" id="card-${i}">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    <a href="javascript:click2center(${i})">${doghotel['title']}</a>
+                                </p>
+                                <i class="fa fa-bookmark-o" onclick="bookmark('${doghotel['title']}', '${doghotel['address']}', 'like')"></i>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    ${doghotel.address}
+                                    <br>
+                                    <p>${doghotel.category}</p>
+
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="/detail" class="card-footer-item">리뷰페이지</a>
+                                <a href="#" class="card-footer-item">${doghotel.phone}</a>
+                            </footer>
+                        </div>`
+                }
+
+
+                $('#cards-box').append(html_temp);
+            }
+
+            //지도위에 인포창 설정
+            function add_info(i, marker, doghotel) {
+                let html_temp = `<div class="iw-inner">
+                                    <h5>${doghotel['title']}</h5>
+                                    <p>${doghotel['address']}
+                                    </div>`;
+                let infowindow = new naver.maps.InfoWindow({
+                    content: html_temp,
+                    maxWidth: 200,
+                    backgroundColor: "#fff",
+                    borderColor: "#888",
+                    borderWidth: 2,
+                    anchorSize: new naver.maps.Size(15, 15),
+                    anchorSkew: true,
+                    anchorColor: "#fff",
+                    pixelOffset: new naver.maps.Point(10, -10)
+                });
+                //지도위에 인포창이 닫혀있는 상태에서 클릭으로 열리면 지도의 센터를 해당 마커중심으로 변경
+               infowindows.push(infowindow);
+                naver.maps.Event.addListener(marker, "click", function (e) {
+                    console.log("clicked", infowindows.length);
+                    if (infowindow.getMap()) {
+                        infowindow.close();
+                    } else {
+                        infowindow.open(map, marker);
+                        map.setCenter(infowindow.position);
+                        //지도상 마커 클릭하면 해당 마커의 카드박스로 리스트 자동 스크롤
+                        $("#cards-box").animate({
+                            scrollTop: $("#cards-box").get(0).scrollTop + $(`#card-${i}`).position().top
+                        }, 2000);
+                    }
+                });
+            }
+            //마커클릭시 지도 센터로 이동 펑션
+            function click2center(i) {
+                let marker = markers[i];
+                let infowindow = infowindows[i];
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                    map.setCenter(infowindow.position)
+                }
+            }
+
+            //타이틀, 주소 북마크값 포스트콜 요청하여 성공하면 겟도그호텔 펑션실행
+            function bookmark(title, address, action) {
+                $.ajax({
+                    type: "POST",
+                    url: "/like_doghotel",
+                    data: {
+                        title_give: title,
+                        address_give: address,
+                        action_give: action
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            get_doghotels()
+                        }
+                    }
+                })
+            }
+
+        //쿠키안에 토큰 삭제로 로그아웃 후 로그인 페이지로 이동
+        funtion log_out() {
+            alert('로그아웃 하시겠습니까?')
+            $.ajax({
+                type: "GET",
+                url: "/sign_out",
+                data: {},
+                success: function (response) {
+                    $.removeCookie('mytoken', {path: '/'});
+                    return window.location.replace("/login")
+                }
+            })
+
+        }
+
+    </script>
+
+</head>
+
+
+<body>
+<nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
+        </a>
+    </div>
+    <div class="navbar-brand">
+        <a class="navbar-item">
+            <img class="signout_nav" src="{{ url_for('static', filename='signout_nav.png') }}" onclick="log_out()">
+        </a>
+    </div>
+
+</nav>
+<div class="body">
+        <div class="wrap">
+            <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        <img class="logo_nav" src="{{ url_for('static', filename='logo_nav.png') }}">
+                    </a>
+                </div>
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        <img class="signout_nav" src="{{ url_for('static', filename='signout_nav.png') }}"
+                             onclick="log_out()">
+                    </a>
+                </div>
+            </nav>
+            <div class="map-wrap ">
+                <div id="map"></div>
+            </div>
+            <div class="cards-box" id="cards-box">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            ${matjip.title}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            ${matjip.address}
+                            <br>
+                            <p>${majip.category}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="/detail" class="card-footer-item">리뷰페이지</a>
+                        <a href="#" class="card-footer-item">${matjip.phone}</a>
+
+                    </footer>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </body>
+
+    </html>
